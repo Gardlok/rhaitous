@@ -1,6 +1,10 @@
 use std::env;
 use std::fs;
 
+mod conduit;
+mod point;
+mod spatial_vector;
+
 mod script_executor;
 use script_executor::ScriptExecutor;
 

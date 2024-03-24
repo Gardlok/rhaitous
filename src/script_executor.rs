@@ -1,4 +1,6 @@
-use crate::executor::{DynExecutor, Point};
+use crate::conduit::Conduit;
+use crate::{executor::DynExecutor, point::Point, spatial_vector::SpatialVector};
+
 use rhai::Dynamic;
 
 pub struct ScriptExecutor;
@@ -33,6 +35,17 @@ impl ScriptExecutor {
                     );
                 } else {
                     println!("Type matched 'Point' but could not be cast.");
+                }
+            }
+            "SpatialVector" => {
+                if let Some(vector) = SpatialVector::create_from_dynamic(result) {
+                    println!(
+                        "Script executed successfully. SpatialVector magnitude: {}, angle: {}",
+                        vector.magnitude(),
+                        vector.angle()
+                    );
+                } else {
+                    println!("Type matched 'SpatialVector' but could not be cast.");
                 }
             }
 
