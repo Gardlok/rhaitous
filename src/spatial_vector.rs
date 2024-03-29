@@ -1,5 +1,6 @@
 use crate::conduit::Conduit;
-use rhai::{Dynamic, FLOAT};
+use crate::executor::EngineConfigurationStrategy;
+use rhai::{Dynamic, Engine, FLOAT};
 use std::f64::consts::PI;
 
 #[derive(Clone)]
@@ -26,5 +27,27 @@ impl SpatialVector {
 impl Conduit for SpatialVector {
     fn create_from_dynamic(dynamic: Dynamic) -> Option<Self> {
         dynamic.try_cast::<Self>()
+    }
+}
+
+pub struct SpatialVectorConfiguration;
+
+impl EngineConfigurationStrategy for SpatialVectorConfiguration {
+    fn configure_engine(&self, engine: &mut Engine) {
+        engine
+            .register_type_with_name::<SpatialVector>("SpatialVector")
+            .register_fn("new_spatial_vector", SpatialVector::new)
+            .register_get_set(
+                "x",
+                |v: &mut SpatialVector| v.x,
+                |v: &mut SpatialVector, val: FLOAT| v.x = val,
+            )
+            .register_get_set(
+                "y",
+                |v: &mut SpatialVector| v.y,
+                |v: &mut SpatialVector, val: FLOAT| v.y = val,
+            )
+            .register_fn("magnitude", SpatialVector::magnitude)
+            .register_fn("angle", SpatialVector::angle);
     }
 }
