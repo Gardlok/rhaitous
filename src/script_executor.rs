@@ -48,7 +48,13 @@ impl ScriptExecutor {
                     println!("Type matched 'SpatialVector' but could not be cast.");
                 }
             }
-
+            "string" => {
+                if let Some(string_result) = result.try_cast::<String>() {
+                    println!("Script executed successfully. Result: {}", string_result);
+                } else {
+                    println!("Expected a 'string' but could not cast to a String.");
+                }
+            }
             // Placeholder for additional types
             _ => println!(
                 "Script executed, but the result type '{}' was not recognized.",

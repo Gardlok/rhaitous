@@ -1,6 +1,6 @@
 use crate::conduit::Conduit;
 use crate::executor::EngineConfigurationStrategy;
-use rhai::{Dynamic, Engine, EvalAltResult, INT};
+use rhai::{Dynamic, Engine, INT};
 
 #[derive(Debug, Clone)]
 pub struct Point {

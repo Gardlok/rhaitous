@@ -7,16 +7,18 @@ mod conduit;
 
 mod point;
 use point::PointConfiguration;
+
 mod spatial_vector;
 use spatial_vector::SpatialVectorConfiguration;
+
+mod file_concat;
+use file_concat::FileCatConfiguration;
 
 mod script_executor;
 use script_executor::ScriptExecutor;
 
 mod executor;
-use executor::{
-    BasicExecutor, ConfigurableExecutor, EngineConfiguration, EngineConfigurationStrategy,
-};
+use executor::{ConfigurableExecutor, EngineConfigurationStrategy};
 
 fn main() {
     // Grab the location of RHAI file from CLI args
@@ -29,24 +31,14 @@ fn main() {
     let script_path = &args[1];
     let script = fs::read_to_string(script_path).expect("Failed to read script file");
 
-    // configurations (strategies)
-    let point_configuration = Box::new(PointConfiguration {});
-    // let spatial_vector_configuration = Box::new(SpatialVectorConfiguration {});
-
-    // Instantiate the ConfigurableExecutor with the desired configurations
-    // let configurations = vec![point_configuration, spatial_vector_configuration];
-    // let configurations = vec![point_configuration];
-
+    // configurations for engine
     let configurations: Vec<Box<dyn EngineConfigurationStrategy>> = vec![
         Box::new(PointConfiguration {}),
         Box::new(SpatialVectorConfiguration {}),
+        Box::new(FileCatConfiguration {}),
     ];
 
+    // execute engine on script
     let executor = ConfigurableExecutor::new(configurations);
-
-    // Execute the script using the newly configured executor
     ScriptExecutor::execute_script(&executor, &script);
-
-    // let executor = BasicExecutor::new();
-    // ScriptExecutor::execute_script(&executor, &script);
 }
