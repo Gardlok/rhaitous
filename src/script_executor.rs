@@ -55,7 +55,6 @@ impl ScriptExecutor {
                     println!("Expected a 'string' but could not cast to a String.");
                 }
             }
-            // Placeholder for additional types
             _ => println!(
                 "Script executed, but the result type '{}' was not recognized.",
                 result.type_name()

@@ -24,20 +24,6 @@ impl Conduit for Point {
     }
 }
 
-// pub struct PointConfiguration;
-
-// impl EngineConfiguration for PointConfiguration {
-//     fn configure_engine(&self, engine: &mut Engine) {
-//         // Configure engine for Point operations
-//         engine
-//             .register_type_with_name::<Point>("Point")
-//             .register_fn("create_point", Point::new)
-//             .register_get_set("x", |p: &mut Point| p.x, |p: &mut Point, v: INT| p.x = v)
-//             .register_get_set("y", |p: &mut Point| p.y, |p: &mut Point, v: INT| p.y = v)
-//             .register_fn("length", Point::length);
-//     }
-// }
-
 pub struct PointConfiguration;
 
 impl EngineConfigurationStrategy for PointConfiguration {
