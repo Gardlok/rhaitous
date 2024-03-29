@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::env;
 use std::fs;
 
@@ -9,8 +11,7 @@ mod script_executor;
 use script_executor::ScriptExecutor;
 
 mod executor;
-//use executor::point_dyn_executor;
-use executor::{point_executor, BasicExecutor, DynExecutor, Executor};
+use executor::BasicExecutor;
 
 fn main() {
     // Grab the location of RHAI file from CLI args

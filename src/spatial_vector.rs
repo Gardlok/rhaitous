@@ -28,7 +28,3 @@ impl Conduit for SpatialVector {
         dynamic.try_cast::<Self>()
     }
 }
-
-pub fn new_spatial_vector(x: FLOAT, y: FLOAT) -> SpatialVector {
-    SpatialVector { x, y }
-}
