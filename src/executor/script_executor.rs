@@ -1,7 +1,8 @@
-use crate::conduit::Conduit;
-use crate::{executor::DynExecutor, point::Point, spatial_vector::SpatialVector};
-
 use rhai::Dynamic;
+
+use super::DynExecutor;
+use crate::models::{Point, SpatialVector, StringHandler};
+use crate::Conduit;
 
 pub struct ScriptExecutor;
 

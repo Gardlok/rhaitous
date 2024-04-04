@@ -4,24 +4,18 @@ use std::env;
 use std::fs;
 
 mod conduit;
+pub use conduit::Conduit;
 
-mod point;
-use point::PointConfiguration;
+mod models;
+mod utils;
 
-mod spatial_vector;
-use spatial_vector::SpatialVectorConfiguration;
-
-mod file_concat;
-use file_concat::FileCatConfiguration;
-
-mod string_handler;
-use string_handler::{StringHandler, StringHandlerConfiguration};
-
-mod script_executor;
-use script_executor::ScriptExecutor;
+use crate::models::{
+    FileCatConfiguration, PointConfiguration, SpatialVectorConfiguration, StringHandler,
+    StringHandlerConfiguration,
+};
 
 mod executor;
-use executor::{ConfigurableExecutor, EngineConfigurationStrategy};
+use crate::executor::{ConfigurableExecutor, EngineConfigurationStrategy, ScriptExecutor};
 
 fn main() {
     // Grab the location of RHAI file from CLI args
