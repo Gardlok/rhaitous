@@ -1,7 +1,7 @@
-use rhai::Dynamic;
+use rhai::{Dynamic, Engine, EvalAltResult};
 
 use super::DynExecutor;
-use crate::models::{Point, SpatialVector, StringHandler};
+use crate::strategies::{Point, SpatialVector, StringHandler};
 use crate::Conduit;
 
 pub struct ScriptExecutor;

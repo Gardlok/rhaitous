@@ -6,16 +6,16 @@ use std::fs;
 mod conduit;
 pub use conduit::Conduit;
 
-mod models;
-mod utils;
-
-use crate::models::{
+use crate::strategies::{
     FileCatConfiguration, PointConfiguration, SpatialVectorConfiguration, StringHandler,
     StringHandlerConfiguration,
 };
 
 mod executor;
 use crate::executor::{ConfigurableExecutor, EngineConfigurationStrategy, ScriptExecutor};
+
+mod strategies;
+mod utils;
 
 fn main() {
     // Grab the location of RHAI file from CLI args
@@ -28,7 +28,7 @@ fn main() {
     let script_path = &args[1];
     let script = fs::read_to_string(script_path).expect("Failed to read script file");
 
-    // configurations for engine
+    // configurations for engine using configs specified in models/
     let configurations: Vec<Box<dyn EngineConfigurationStrategy>> = vec![
         Box::new(PointConfiguration {}),
         Box::new(SpatialVectorConfiguration {}),
@@ -36,12 +36,11 @@ fn main() {
         Box::new(StringHandlerConfiguration {}),
     ];
 
-    // execute engine on script
+    // execute the engine on script
     let executor = ConfigurableExecutor::new(configurations);
     ScriptExecutor::execute_script(&executor, &script);
 }
 
-// TODO: Better testing
 #[cfg(test)]
 mod tests {
     use super::*;
