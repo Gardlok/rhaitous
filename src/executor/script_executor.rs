@@ -1,5 +1,8 @@
 use rhai::{Dynamic, Engine, EvalAltResult};
 
+// This module handles the execution of scripts using the Rhai
+// scripting engine and maps the results to Rust structures.
+
 use super::DynExecutor;
 use crate::strategies::{Point, SpatialVector, StringHandler};
 use crate::Conduit;
@@ -20,6 +23,8 @@ impl ScriptExecutor {
         }
     }
 
+    // Handles the result of a script execution, casting the dynamic type to
+    // known types and acting on them
     fn handle_result(result: Dynamic) {
         // Attempt to cast Dynamic to various types and act accordingly
 
@@ -56,6 +61,13 @@ impl ScriptExecutor {
                     println!("Expected a 'string' but could not cast to a String.");
                 }
             }
+            "i64" => {
+                if let Some(num) = result.try_cast::<i64>() {
+                    println!("Script executed successfully. Integer result: {}", num);
+                } else {
+                    println!("Type matched 'i64' but could not be cast.");
+                }
+            }
             _ => println!(
                 "Script executed, but the result type '{}' was not recognized.",
                 result.type_name()
@@ -65,6 +77,8 @@ impl ScriptExecutor {
 }
 
 // Helpers
+
+// Simplifies a type name by removing the namespace components
 fn get_simple_type_name(full_type_name: &str) -> &str {
     full_type_name.split("::").last().unwrap_or_default()
 }

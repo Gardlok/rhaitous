@@ -1,23 +1,27 @@
-#![allow(dead_code)]
-
 use std::env;
 use std::fs;
+use std::time::{Duration, Instant};
 
 mod conduit;
 pub use conduit::Conduit;
 
 use crate::strategies::{
-    FileCatConfiguration, PointConfiguration, SpatialVectorConfiguration, StringHandler,
-    StringHandlerConfiguration,
+    FileCatConfiguration, PerformanceEngineConfiguration, PointConfiguration,
+    SpatialVectorConfiguration, StringHandler, StringHandlerConfiguration,
 };
 
 mod executor;
-use crate::executor::{ConfigurableExecutor, EngineConfigurationStrategy, ScriptExecutor};
+use crate::executor::{
+    BasicExecutor, ConfigurableExecutor, EngineConfigurationStrategy, ScriptExecutor,
+    SimpleExecutor,
+};
 
 mod strategies;
 mod utils;
 
 fn main() {
+    let start_from_all = Instant::now();
+
     // Grab the location of RHAI file from CLI args
     // and turn it into the script
     let args: Vec<String> = env::args().collect();
@@ -30,15 +34,21 @@ fn main() {
 
     // configurations for engine using configs specified in models/
     let configurations: Vec<Box<dyn EngineConfigurationStrategy>> = vec![
-        Box::new(PointConfiguration {}),
-        Box::new(SpatialVectorConfiguration {}),
-        Box::new(FileCatConfiguration {}),
-        Box::new(StringHandlerConfiguration {}),
+        Box::new(PointConfiguration {}),             // Example strategy
+        Box::new(SpatialVectorConfiguration {}),     // Example strategy
+        Box::new(FileCatConfiguration {}),           // Strategy to concat files from a directory
+        Box::new(StringHandlerConfiguration {}),     // Strategy for simple string returns
+        Box::new(PerformanceEngineConfiguration {}), // Strategy to test script performance
     ];
 
     // execute the engine on script
-    let executor = ConfigurableExecutor::new(configurations);
+    let mut executor = ConfigurableExecutor::new();
+    executor.load_configs(configurations);
+
+    let start_from_exec = Instant::now();
     ScriptExecutor::execute_script(&executor, &script);
+    println!("Load + execute time: {:?}", start_from_all.elapsed());
+    println!("Execute time: {:?}", start_from_exec.elapsed());
 }
 
 #[cfg(test)]

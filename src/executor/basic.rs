@@ -1,7 +1,9 @@
 use rhai::{Dynamic, Engine, EvalAltResult};
 
-use super::DynExecutor;
+use super::{DynExecutor, SimpleExecutor};
 
+// Defines a simple executor that uses the default configuration of
+// the Rhai Engine to execute scripts.
 pub struct BasicExecutor;
 
 impl BasicExecutor {

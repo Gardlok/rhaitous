@@ -1,16 +1,11 @@
-mod executor;
-pub use executor::Executor;
+mod executors;
+pub use executors::{DynExecutor, SimpleExecutor};
 
-mod basic_executor;
-pub use basic_executor::BasicExecutor;
+mod basic;
+pub use basic::BasicExecutor;
 
-mod configurable_executor;
-pub use configurable_executor::{
-    ConfigurableExecutor, EngineConfiguration, EngineConfigurationStrategy,
-};
-
-mod dyn_executor;
-pub use dyn_executor::DynExecutor;
+mod configurable;
+pub use configurable::{ConfigurableExecutor, EngineConfigurationStrategy};
 
 mod script_executor;
 pub use script_executor::ScriptExecutor;
