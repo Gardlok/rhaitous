@@ -5,6 +5,7 @@ use std::time::{Duration, Instant};
 mod conduit;
 pub use conduit::Conduit;
 
+mod strategies;
 use crate::strategies::{
     FileCatConfiguration, PerformanceEngineConfiguration, PointConfiguration,
     SpatialVectorConfiguration, StringHandler, StringHandlerConfiguration,
@@ -15,9 +16,6 @@ use crate::executor::{
     BasicExecutor, ConfigurableExecutor, EngineConfigurationStrategy, ScriptExecutor,
     SimpleExecutor,
 };
-
-mod strategies;
-mod utils;
 
 fn main() {
     let start_from_all = Instant::now();
@@ -47,6 +45,9 @@ fn main() {
 
     let start_from_exec = Instant::now();
     ScriptExecutor::execute_script(&executor, &script);
+
+    // Display one duration for entire load and execution time and
+    // another for just execution time
     println!("Load + execute time: {:?}", start_from_all.elapsed());
     println!("Execute time: {:?}", start_from_exec.elapsed());
 }
